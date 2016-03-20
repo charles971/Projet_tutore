@@ -1,7 +1,7 @@
-int duration;                                                          //Stores duration of pulse in
 float distance;                                                        // Stores distance
-char echo = 5;      // Pin for SRF05
-char trigger = 4;
+char echo = 4;      // Pin for SRF05
+char trigger = 3;
+int duration;
 
 void setup(void)
 {
@@ -9,8 +9,6 @@ int i;
 for(i=5;i<=8;i++)
 pinMode(trigger, OUTPUT);
 pinMode(echo, INPUT);
-Serial.begin(9600);
-
 }
 
 void Go()
@@ -34,7 +32,7 @@ digitalWrite(8,LOW);
 analogWrite (5,255);
 digitalWrite(7,HIGH);
 
- delay(1000);
+ delay(2000);
 
 }
 
@@ -49,11 +47,12 @@ digitalWrite(8,HIGH);
 analogWrite (5,255);
 digitalWrite(7,LOW);
 
-delay(1000);
-
+delay(2000);
 }
+
 void loop(void)
 {
+  int rand1=1; 
   
 //pinMode(sensorpin, OUTPUT);
   digitalWrite(trigger, LOW);                          // Make sure pin is low before sending a short high to trigger ranging
@@ -66,16 +65,24 @@ void loop(void)
   duration = pulseIn(echo, HIGH);                        // Reads echo pulse in from SRF05 in micro seconds
   distance = duration/58;                                      // Dividing this by 58 gives us a distance in cm
   Serial.println(distance); // Wait before looping to do it again
- delay(100); 
- 
   
-  if( distance<10){
+  delay(100); 
+
+
+  
+  if( distance<20){
+   rand1 = rand() % 10;
+    if(rand1<5){
+      gauche();
+    }
+    else{
     droite();
     
+    }
   }
   else
   {
    Go();
   
   }
-}    
+}
